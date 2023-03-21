@@ -1,12 +1,15 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler');
+const Contacts = require('../models/contactModel');
 
 //@desc     Get all contacts
 //@route    GET /api/contacts
 //@access   Public
 
 const getContacts = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, msg: 'Show all contacts' });
+  const contacts = await Contacts.find();
+
+  res.status(200).json({ success: true, data: contacts });
 });
 
 //@desc     Get single contact
@@ -14,7 +17,13 @@ const getContacts = asyncHandler(async (req, res) => {
 //@access   Public
 
 const getContact = asyncHandler(async (req, res) => {
-  res.status(200).json({ success: true, msg: `Show contact ${req.params.id}` });
+  const contact = await Contacts.findById(req.params.id);
+
+  if (!contact) {
+    return res.status(404).json({ success: false, msg: 'Contact not found' });
+  }
+
+  res.status(200).json({ success: true, data: contact });
 });
 
 //@desc     Create new contact
@@ -24,11 +33,17 @@ const getContact = asyncHandler(async (req, res) => {
 const createContact = asyncHandler(async (req, res) => {
   const { name, email, phone, type } = req.body;
 
-  if (!name || !email || !phone || !type) {
+  if (!name || !email || !phone) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
 
-  res.status(200).json({ success: true, msg: 'Create new contact' });
+  const newContact = await Contacts.create({
+    name,
+    email,
+    phone,
+  });
+
+  res.status(200).json({ success: true, data: newContact });
 });
 
 //@desc     Update contact
