@@ -69,6 +69,11 @@ const login = asyncHandler(async (req, res) => {
 
 // @ Get current user (GET /api/users/current) [private]
 const getCurrentUser = asyncHandler(async (req, res) => {
+  res.json({ success: true, msg: 'GetCurrentUser', data: users });
+});
+
+// @ Get current user (GET /api/users/current) [private]
+const getAllUser = asyncHandler(async (req, res) => {
   const users = await User.find({});
   res.json({ success: true, msg: 'GetCurrentUser', data: users });
 });
@@ -77,4 +82,5 @@ module.exports = {
   register,
   login,
   getCurrentUser,
+  getAllUser,
 };
