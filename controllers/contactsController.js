@@ -4,7 +4,7 @@ const Contacts = require('../models/contactModel');
 
 //@desc     Get all contacts
 //@route    GET /api/contacts
-//@access   Public
+//@access   PRIVATE
 
 const getContacts = asyncHandler(async (req, res) => {
   const contacts = await Contacts.find();
@@ -14,7 +14,7 @@ const getContacts = asyncHandler(async (req, res) => {
 
 //@desc     Get single contact
 //@route    GET /api/contacts/:id
-//@access   Public
+//@access   PRIVATE
 
 const getContact = asyncHandler(async (req, res) => {
   const contact = await Contacts.findById(req.params.id);

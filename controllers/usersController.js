@@ -69,7 +69,7 @@ const login = asyncHandler(async (req, res) => {
 
 // @ Get current user (GET /api/users/current) [private]
 const getCurrentUser = asyncHandler(async (req, res) => {
-  res.json({ success: true, msg: 'GetCurrentUser', data: users });
+  res.json({ success: true, msg: 'GetCurrentUser', data: req.user });
 });
 
 // @ Get current user (GET /api/users/current) [private]
