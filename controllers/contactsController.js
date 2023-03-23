@@ -7,7 +7,7 @@ const Contacts = require('../models/contactModel');
 //@access   PRIVATE
 
 const getContacts = asyncHandler(async (req, res) => {
-  const contacts = await Contacts.find();
+  const contacts = await Contacts.find({ user_id: req.user.id });
 
   res.status(200).json({ success: true, data: contacts });
 });
@@ -31,7 +31,7 @@ const getContact = asyncHandler(async (req, res) => {
 //@access   Private
 
 const createContact = asyncHandler(async (req, res) => {
-  const { name, email, phone, type } = req.body;
+  const { name, email, phone } = req.body;
 
   if (!name || !email || !phone) {
     return res.status(400).json({ msg: 'Please enter all fields' });
@@ -41,9 +41,11 @@ const createContact = asyncHandler(async (req, res) => {
     name,
     email,
     phone,
+    user_id: req.user.id,
   });
 
   res.status(200).json({ success: true, data: newContact });
+  console.log('newContact: ', newContact);
 });
 
 //@desc     Update contact
